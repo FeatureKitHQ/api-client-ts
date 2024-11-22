@@ -28,12 +28,12 @@ export interface TeamMemberAuthResponse {
      * @type {string}
      * @memberof TeamMemberAuthResponse
      */
-    'accessToken'?: string;
+    'accessToken': string;
     /**
      * 
      * @type {TeamMember}
      * @memberof TeamMemberAuthResponse
      */
-    'user'?: TeamMember;
+    'user': TeamMember;
 }
 

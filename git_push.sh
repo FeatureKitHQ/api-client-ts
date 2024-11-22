@@ -3,9 +3,9 @@
 #
 # Usage example: /bin/sh ./git_push.sh wing328 openapi-petstore-perl "minor update" "gitlab.com"
 
-git_user_id=FeatureKitHQ
-git_repo_id=api-client-ts
-release_note="chore: create initial client"
+git_user_id=$1
+git_repo_id=$2
+release_note=$3
 git_host=$4
 
 if [ "$git_host" = "" ]; then
@@ -37,27 +37,21 @@ git add .
 # Commits the tracked changes and prepares them to be pushed to a remote repository.
 git commit -m "$release_note"
 
-git branch -M main
-git remote add origin https://github.com/FeatureKitHQ/api-client-ts.gitgit push -u origin main
+# Sets the new remote
+git_remote=$(git remote)
+if [ "$git_remote" = "" ]; then # git remote not defined
 
-git push -u origin main
+    if [ "$GIT_TOKEN" = "" ]; then
+        echo "[INFO] \$GIT_TOKEN (environment variable) is not set. Using the git credential in your environment."
+        git remote add origin https://${git_host}/${git_user_id}/${git_repo_id}.git
+    else
+        git remote add origin https://${git_user_id}:"${GIT_TOKEN}"@${git_host}/${git_user_id}/${git_repo_id}.git
+    fi
 
+fi
 
-## Sets the new remote
-#git_remote=$(git remote)
-#if [ "$git_remote" = "" ]; then # git remote not defined
-#
-#    if [ "$GIT_TOKEN" = "" ]; then
-#        echo "[INFO] \$GIT_TOKEN (environment variable) is not set. Using the git credential in your environment."
-#        git remote add origin https://${git_host}/${git_user_id}/${git_repo_id}.git
-#    else
-#        git remote add origin https://${git_user_id}:"${GIT_TOKEN}"@${git_host}/${git_user_id}/${git_repo_id}.git
-#    fi
-#
-#fi
-#
-#git pull origin master
-#
-## Pushes (Forces) the changes in the local repository up to the remote repository
-#echo "Git pushing to https://${git_host}/${git_user_id}/${git_repo_id}.git"
-#git push origin master 2>&1 | grep -v 'To https'
+git pull origin master
+
+# Pushes (Forces) the changes in the local repository up to the remote repository
+echo "Git pushing to https://${git_host}/${git_user_id}/${git_repo_id}.git"
+git push origin master 2>&1 | grep -v 'To https'
