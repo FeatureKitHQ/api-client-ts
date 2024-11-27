@@ -17,4 +17,5 @@
 export * from './api/auth-api';
 export * from './api/onboarding-api';
 export * from './api/organizations-api';
+export * from './api/posts-api';
 

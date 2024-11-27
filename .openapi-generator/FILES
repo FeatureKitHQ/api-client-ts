@@ -6,6 +6,7 @@ api.ts
 api/auth-api.ts
 api/onboarding-api.ts
 api/organizations-api.ts
+api/posts-api.ts
 base.ts
 common.ts
 configuration.ts
@@ -13,8 +14,10 @@ git_push.sh
 index.ts
 model/audit-metadata.ts
 model/create-organization-request.ts
+model/create-post-request.ts
 model/index.ts
 model/organization.ts
+model/post.ts
 model/registration-request.ts
 model/team-member-auth-request.ts
 model/team-member-auth-response.ts

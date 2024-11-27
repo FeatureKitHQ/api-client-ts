@@ -68,6 +68,36 @@ export const OrganizationsApiAxiosParamCreator = function (configuration?: Confi
             };
         },
         /**
+         * Returns a list of organizations that the user is a member of
+         * @summary Get all organizations
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllOrganizations: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/organizations`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @summary Get organization details
          * @param {string} organizationId The ID of the organization
@@ -165,6 +195,18 @@ export const OrganizationsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Returns a list of organizations that the user is a member of
+         * @summary Get all organizations
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllOrganizations(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Organization>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllOrganizations(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OrganizationsApi.getAllOrganizations']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 
          * @summary Get organization details
          * @param {string} organizationId The ID of the organization
@@ -212,6 +254,15 @@ export const OrganizationsApiFactory = function (configuration?: Configuration, 
             return localVarFp.createOrganization(createOrganizationRequest, options).then((request) => request(axios, basePath));
         },
         /**
+         * Returns a list of organizations that the user is a member of
+         * @summary Get all organizations
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllOrganizations(options?: RawAxiosRequestConfig): AxiosPromise<Array<Organization>> {
+            return localVarFp.getAllOrganizations(options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
          * @summary Get organization details
          * @param {string} organizationId The ID of the organization
@@ -252,6 +303,17 @@ export class OrganizationsApi extends BaseAPI {
      */
     public createOrganization(createOrganizationRequest: CreateOrganizationRequest, options?: RawAxiosRequestConfig) {
         return OrganizationsApiFp(this.configuration).createOrganization(createOrganizationRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns a list of organizations that the user is a member of
+     * @summary Get all organizations
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrganizationsApi
+     */
+    public getAllOrganizations(options?: RawAxiosRequestConfig) {
+        return OrganizationsApiFp(this.configuration).getAllOrganizations(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
